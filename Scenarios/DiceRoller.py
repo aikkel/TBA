@@ -2,9 +2,9 @@ import random
 from Units import Player
 
 class DiceRoller:
-    def __init__(self):
-        pass
-    
+    def __init__(self, name):
+        self.player = Player(name)
+
     def roll_dice_Player(num_dice, modifier=0):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + modifier
         return roll_total
@@ -20,7 +20,6 @@ class DiceRoller:
             player.luck -= 1 #decrease luck by 1
             return "unlucky!"
 
-    player = Player(name)
 
     def roll_dice_Battle(num_dice, skill):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill #dont forget luck
