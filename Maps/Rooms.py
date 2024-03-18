@@ -1,11 +1,11 @@
 class Room:
     def __init__(self, id, name, description, exits=None, items=None, event=None):
-        self.id = id                   # Room's ID, how it is called
-        self.name = name               # Room Name
-        self.description = description # Room's description
+        self.id = id                                     # Room's ID, how it is called
+        self.name = name                                 # Room Name
+        self.description = description                   # Room's description
         self.exits = exits if exits is not None else {}  # Exit(s) from a room
         self.items = items if items is not None else []  # Item(s) found in a room
-        self.event = event             # Traps / teleport traps / enemies in a room
+        self.event = event                               # Traps / teleport traps / enemies in a room
     
     def get_description(self):
         description = self.description
