@@ -12,13 +12,20 @@ class Room:
         if self.items:
             description += "\n\nYou see" + ", ".join((self.items)) + " here."
         if self.exits:
-            description += "\n\nYou can go" + ", ".join(self.exits) + "."
+            exit_descriptions = []
+        for direction, rooms in self.exits.items():
+            room_names = [room.name for room in rooms]
+            exit_descriptions.append(f"{direction}: {', '.join(room_names)}")
+            description += "\n\nYou can go " + ", ".join(exit_descriptions) + "."
         if self.events:
             description += "\n\nEvents: " + ", ".join(self.events)
         return description
 
-    def add_exit(self, direction, room):#modify to add multiple exits, use sublists
-        self.exits[direction] = room
+    def add_exit(self, direction, room):
+        if direction in self.exits:
+            self.exits[direction].append(room)
+        else:
+            self.exits[direction] = [room]
 
     def add_item(self, item):
         self.items.append(item)
@@ -48,12 +55,16 @@ c208 = Room("6", "Corridor 4", "NEEDS DESCRIPTION.")
 r397 = Room("7", "NEED NAME", "NEEDS DESCRIPTION.")
 
 # Add exits to rooms
-# needs modification to add multiple exits
+
+# east west corridor
 c1.add_exit("east", c278)
 c1.add_exit("west", c71)
+
 c278.add_exit("west", c1)
 c278.add_exit("east", r343)
+
 r343.add_exit("west", c278)
+
 
 
 # When you call the add_exit method multiple times
