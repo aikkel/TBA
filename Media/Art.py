@@ -16,4 +16,4 @@ class ArtReader:
 
 # Usage example
 art_reader = ArtReader('Media/Art.txt')
-art_reader.read_lines(0, 7)  # This will print lines 1 to 8 (0-indexed), needs to replace with parameters for actual output, remember to subtract 1 from the line number
+art_reader.read_lines(79, 132)  # This will print lines 1 to 8 (0-indexed), needs to replace with parameters for actual output, remember to subtract 1 from the line number

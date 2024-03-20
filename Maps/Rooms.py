@@ -53,6 +53,8 @@ c301 = Room("4", "Corridor 3", "NEEDS DESCRIPTION.")
 r82 = Room("5", "NEED NAME", "NEEDS DESCRIPTION.")
 c208 = Room("6", "Corridor 4", "NEEDS DESCRIPTION.")
 r397 = Room("7", "NEED NAME", "NEEDS DESCRIPTION.")
+c363 = Room("8", "Corridor 5", "NEEDS DESCRIPTION.")
+r370 = Room("9", "NEED NAME", "NEEDS DESCRIPTION.")
 
 # Add exits to rooms
 
@@ -67,19 +69,17 @@ r343.add_exit("west", c278)
 
 
 
-# When you call the add_exit method multiple times
-# for the same direction, it will simply overwrite the previous
-# exit with the new one. This means that only one exit will be stored per direction.
-# If you need to have multiple exits in the same direction
-# (e.g., a room with multiple doors to the north),
-# you can store them as a list or a set within the exits dictionary. However,
-# you would need to modify the add_exit method and adjust the logic accordingly to handle this scenario.
-
-
 
 # Add items to rooms(items dont really exist yet)
-r82.add_item("Key(99)") #key is an item not used in demo/prototype
-r397.add_item("Spellbook") #Spellbook is an item not used in demo/prototype 
+r82.add_item("box?") #box is an item containing item 1gold and a mouse that runs away +2 luck points
+r397.add_item("another box")# contain a snake, to battle
+r370.add_item("and another box")#in box is a Spellbook, used in demo/prototype, called how to cast dragon fire
+
 
 # Add events to rooms(events dont really exist yet)
-c71.add_event("Pitfall!, you take -1 Stamina.")# need to add a function to remove stamina
+r343.add_event("Pitfall!, you take -1 Stamina.")# need to add a function to remove stamina
+c278.add_event("Door is locked, roll luck to unlock it.")# need to add a function to unlock door
+c71.add_event("sneak past the sleeping orc,roll luck")# need to add a function to sneak past orc
+r82.add_event("sleeping orc, roll luck to sneak past, or fight")# need to add a function to sneak past orc
+r397.add_event("snake in the box, if opeen box, battle initiate")# need to add a function to trigger battle. if won get +1 luck
+r370.add_event("drunken monsters!? 2x orc")# need to add a function to trigger battle or run away. drunken state allow +1 to rolls
