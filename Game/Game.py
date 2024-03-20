@@ -1,5 +1,5 @@
 import json
-from Units import Player
+from Units.Player import Player
 
 
 class Game:

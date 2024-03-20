@@ -1,6 +1,6 @@
 import random
-from Units import Player
-from Units import Monster
+from Units.Player import Player
+from Units.Monster import Monster
 
 class DiceRoller:
     def __init__(self, name):

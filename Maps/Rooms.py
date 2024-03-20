@@ -1,4 +1,5 @@
 class Room:
+    all_rooms = [] # Initialize the list to store all rooms
     def __init__(self, id, name, description, exits=None, items=None, events=None):
         self.id = id                                        # Room's ID, how it is called
         self.name = name                                    # Room Name
@@ -6,7 +7,10 @@ class Room:
         self.exits = exits if exits is not None else {}     # Exit(s) from a room
         self.items = items if items is not None else []     # Item(s) found in a room
         self.events = events if events is not None else []  # Events in a room
-    
+        # Add the current room instance to the list of all rooms
+        Room.all_rooms.append(self)
+        
+
     def get_description(self):
         description = self.description
         if self.items:
@@ -20,12 +24,6 @@ class Room:
         if self.events:
             description += "\n\nEvents: " + ", ".join(self.events)
         return description
-
-    def add_exit(self, direction, room):
-        if direction in self.exits:
-            self.exits[direction].append(room)
-        else:
-            self.exits[direction] = [room]
 
     def add_item(self, item):
         self.items.append(item)
@@ -43,8 +41,14 @@ class Room:
             self.events.remove(event)
             return event
     
+    def add_exit(self, direction, room):
+        if direction in self.exits:
+            self.exits[direction].append(room)
+        else:
+            self.exits[direction] = [room]
+    
 # Create rooms id, name, description, exits, items, events
-
+#rooms = []   # List to store all rooms
 c1 = Room('0', 'Cave Entrance', 'NEEDS DESCRIPTION.')
 c278 = Room("1", "Corridor 1", "NEEDS DESCRIPTION.")
 r343 = Room("2", "Pit", "NEEDS DESCRIPTION.")
@@ -56,8 +60,10 @@ r397 = Room("7", "NEED NAME", "NEEDS DESCRIPTION.")
 c363 = Room("8", "Corridor 5", "NEEDS DESCRIPTION.")
 r370 = Room("9", "NEED NAME", "NEEDS DESCRIPTION.")
 
-# Add exits to rooms
+# Add rooms to the list
+#rooms.extend([c1, c278, r343, c71, c301, r82, c208, r397, c363, r370])
 
+# Add exits to rooms
 # east west corridor
 c1.add_exit("east", c278)
 c1.add_exit("west", c71)
