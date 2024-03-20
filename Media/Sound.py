@@ -12,6 +12,7 @@ class SoundPlayer:
         sound_path = os.path.join(self.folder_path, sound_file)
 
         # Play the sound file using winsound
+        print(sound_path)
         winsound.PlaySound(sound_path, winsound.SND_FILENAME)
 
 # Create a SoundPlayer instance
@@ -19,4 +20,8 @@ player = SoundPlayer()
 
 # Play the sound files
 player.play_sound('whoosh.wav')
+sleep(1)
+player.play_sound('heroattack.wav')
+sleep(1)
+player.play_sound('orcattack.wav')
 sleep(1)
