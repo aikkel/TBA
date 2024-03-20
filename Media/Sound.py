@@ -1,16 +1,22 @@
-from playsound import playsound
+import os
+import winsound
+from time import sleep
 
 class SoundPlayer:
-    def __init__(self, whoosh, heroattack, orcattack):
-        self.whoosh = whoosh
-        self.heroattack = heroattack
-        self.orcattack = orcattack
+    def __init__(self):
+        # Get the directory path of the current script
+        self.folder_path = os.path.dirname(os.path.abspath(__file__))
 
-    def play_whoosh(self):
-        playsound(self.whoosh)
+    def play_sound(self, sound_file):
+        # Construct the full path to the sound file
+        sound_path = os.path.join(self.folder_path, sound_file)
 
-    def play_hero_attack(self):
-        playsound(self.heroattack)
+        # Play the sound file using winsound
+        winsound.PlaySound(sound_path, winsound.SND_FILENAME)
 
-    def play_orc_attack(self):
-        playsound(self.orcattack)
+# Create a SoundPlayer instance
+player = SoundPlayer()
+
+# Play the sound files
+player.play_sound('whoosh.wav')
+sleep(1)
