@@ -1,5 +1,7 @@
+all_rooms = [] # Initialize the list to store all rooms
+
 class Room:
-    all_rooms = [] # Initialize the list to store all rooms
+    
     def __init__(self, id, name, description, exits=None, items=None, events=None):
         self.id = id                                        # Room's ID, how it is called
         self.name = name                                    # Room Name
@@ -7,8 +9,8 @@ class Room:
         self.exits = exits if exits is not None else {}     # Exit(s) from a room
         self.items = items if items is not None else []     # Item(s) found in a room
         self.events = events if events is not None else []  # Events in a room
-        # Add the current room instance to the list of all rooms
-        Room.all_rooms.append(self)
+                                                            # Add the current room instance to the list of all rooms
+        all_rooms.append(self)
         
 
     def get_description(self):
@@ -61,7 +63,7 @@ c363 = Room("8", "Corridor 5", "NEEDS DESCRIPTION.")
 r370 = Room("9", "NEED NAME", "NEEDS DESCRIPTION.")
 
 # Add rooms to the list
-#rooms.extend([c1, c278, r343, c71, c301, r82, c208, r397, c363, r370])
+all_rooms.extend([c1, c278, r343, c71, c301, r82, c208, r397, c363, r370])
 
 # Add exits to rooms
 # east west corridor
@@ -83,8 +85,8 @@ r370.add_item("and another box")#in box is a Spellbook, used in demo/prototype, 
 
 
 # Add events to rooms(events dont really exist yet)
-r343.add_event("Pitfall!, you take -1 Stamina.")# need to add a function to remove stamina
-c278.add_event("Door is locked, roll luck to unlock it.")# need to add a function to unlock door
+r343.add_event('r343')# need to add a function to remove stamina
+c278.add_event('c278')# need to add a function to unlock door
 c71.add_event("sneak past the sleeping orc,roll luck")# need to add a function to sneak past orc
 r82.add_event("sleeping orc, roll luck to sneak past, or fight")# need to add a function to sneak past orc
 r397.add_event("snake in the box, if opeen box, battle initiate")# need to add a function to trigger battle. if won get +1 luck

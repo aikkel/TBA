@@ -1,23 +1,51 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import sqlite3
+from Media.Art import ArtReader
 
-conn = sqlite3.connect('monsters.db')
-c = conn.cursor()
+class Monster:
+    def __init__(self, id, name, skill, stamina, art_reader):
+        self.id = id
+        self.name = name
+        self.skill = skill
+        self.stamina = stamina
+        self.art_reader = art_reader
 
-c.execute('''CREATE TABLE monsters
-             (id INTEGER PRIMARY KEY,
-             name TEXT,
-             skill INTEGER,
-             stamina INTEGER)''')
+    def show_art(self):
+        print(f"Art for Monster ID {self.id}:")
+        if self.id in range(1, 5):
+            self.art_reader.orc()
+        elif self.id == 5:
+            self.art_reader.snake()
+        else:
+            print("No art available for this monster.")
 
-monsters_data = [
-    ("Goblin", 6, 10),
-    ("Orc", 8, 15),
-    ("Skeleton", 5, 8),
-    # You can add more monsters here
-]
+def retrieve_monsters_from_db(database_file, art_reader):
+    conn = sqlite3.connect(database_file)
+    c = conn.cursor()
 
-c.executemany('INSERT INTO monsters (name, skill, stamina) VALUES (?, ?, ?)', monsters_data)
+    # Retrieve data from the monsters table
+    c.execute('SELECT * FROM monsters')
+    monsters_data = c.fetchall()
 
-# Commit changes and close connection
-conn.commit()
-conn.close()
+    # Close connection
+    conn.close()
+
+    # Create Monster objects
+    monsters = []
+    for monster_data in monsters_data:
+        monster = Monster(*monster_data, art_reader)
+        monsters.append(monster)
+
+    return monsters
+
+# Usage example
+art_reader = ArtReader('Media/Art.txt')
+
+# Retrieve monsters from the database
+monsters = retrieve_monsters_from_db('monsters.db', art_reader)
+
+# Display art for each monster
+for monster in monsters:
+    monster.show_art()

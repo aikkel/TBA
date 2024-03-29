@@ -1,9 +1,12 @@
 import json
 from Units.Player import Player
 
-
 class Game:
     def __init__(self):
+        self.initialize_game()
+
+    def initialize_game(self):
+        # Initialize the player
         self.player = Player("Player")
 
     def encounter_monster(self):
@@ -16,7 +19,7 @@ class Game:
             "player": {
                 "name": self.player.name,
                 "inventory": self.player.inventory,
-                "skills": self.player.skills,
+                "skill": self.player.skill,
                 "stamina": self.player.stamina,
                 "luck": self.player.luck
             },
@@ -33,7 +36,7 @@ class Game:
             player_data = save_data["player"]
             self.player = Player(player_data["name"])
             self.player.inventory = player_data["inventory"]
-            self.player.skills = player_data["skills"]
+            self.player.skill = player_data["skill"]
             self.player.stamina = player_data["stamina"]
             self.player.luck = player_data["luck"]
 

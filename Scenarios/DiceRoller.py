@@ -1,29 +1,28 @@
 import random
-from Units.Player import Player
-from Units.Monster import Monster
 
 class DiceRoller:
     def __init__(self, name):
-        self.player = Player(name)
-        self.monster = Monster("Monster")
+        self.player = None
+        self.name = name
 
-    def roll_dice_player(num_dice, modifier=0):
+    def set_player(self, player):
+        self.player = player
+
+    def roll_dice_player(self, num_dice, modifier=0):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + modifier
         return roll_total
     
-    #Rolling dice for luck scenarios.
-    def roll_dice_luck(player):
+    def roll_dice_luck(self, player):
         luck_roll = random.randint(2, 12)
         if luck_roll <= player.luck:
-            player.luck -= 1 #decrease luck by 1
+            player.luck -= 1
             print(f"You got lucky! Your luck is now {player.luck}" )
-            return "lucky!" + player.luck
+            return "lucky! " + str(player.luck)
         else:
-            player.luck -= 1 #decrease luck by 1
+            player.luck -= 1
             return "unlucky!"
 
-
-    def roll_dice_battle(num_dice, skill):
+    def roll_dice_battle(self, num_dice, skill):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill
         return roll_total
     
@@ -36,7 +35,7 @@ class DiceRoller:
         if player_roll > monster_roll:
             print("Player wins!")
             if roll_luck:
-                luck_result = self.roll_dice_Luck(self.player)
+                luck_result = self.roll_dice_luck(self.player)
                 if "lucky" in luck_result:
                     print("Player got lucky! Damage increased.")
                 else:

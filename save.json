@@ -1,0 +1,9 @@
+{
+    "player": {
+        "name": "Player",
+        "inventory": [],
+        "skill": 12,
+        "stamina": 22,
+        "luck": 10
+    }
+}
