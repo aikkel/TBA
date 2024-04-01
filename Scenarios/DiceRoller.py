@@ -1,4 +1,5 @@
 import random
+from Media.Sound import SoundPlayer 
 
 class DiceRoller:
     def __init__(self, name):
@@ -34,6 +35,7 @@ class DiceRoller:
 
         if player_roll > monster_roll:
             print("Player wins!")
+            SoundPlayer().play_sound('heroattack.wav')
             if roll_luck:
                 luck_result = self.roll_dice_luck(self.player)
                 if "lucky" in luck_result:
@@ -41,6 +43,8 @@ class DiceRoller:
                 else:
                     print("Player got unlucky! Damage decreased.")
         elif monster_roll > player_roll:
+            SoundPlayer().play_sound('orcattack.wav')
             print("Monster wins!")
         else:
+            SoundPlayer().play_sound('whoosh.wav')
             print("It's a tie!")
