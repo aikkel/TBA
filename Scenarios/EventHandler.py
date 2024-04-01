@@ -7,6 +7,7 @@ def RunEvent(roomID):
     if (roomID == 'r343'):
         print("A room. With a pit. The pit IS the room. You fall down the room pit and lose 1 Stamina. Now isn't that unfortunate.")
         player.stamina -= 1
+        print(f"Your Stamina is now {player.stamina}.")
         all_rooms.index('r343').remove_event('r343') # I think this works for removing an event from a room
 
 
@@ -20,8 +21,8 @@ def RunEvent(roomID):
             skillCheck = DiceRoller().roll_dice_player(2)
             if skillCheck >= player.skills:
                 print("You smash your way through the door, dashing through the frame and enter...")
+                all_rooms.index('c278').remove_event('c278') # Important to delete this event once it's done, we don't want it to start again
                 player.update_current_room('r343') # Here you'd be redirected to the next room, immediately starting r343's event
-                all_rooms.index('c278').remove_event('c278') # Also important to delete this event once it's done, we don't want it to start again
             else:
                 print("Your strength wasn't enough to force open the door.")
                 all_rooms.index('c278').remove_event('c278') # Delete event here
@@ -30,7 +31,6 @@ def RunEvent(roomID):
             all_rooms.index('c278').remove_event('c278') # Delete event here
         else:
             pass # Invalid input handler?
-            
 
         if (roomID == 'c71'):
             print("You spot a sleeping orc. You must test your luck here to get through without waking it up...")
