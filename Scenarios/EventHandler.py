@@ -21,13 +21,13 @@ def RunEvent(roomID):
             if skillCheck >= player.skills:
                 print("You smash your way through the door, dashing through the frame and enter...")
                 player.update_current_room('r343') # Here you'd be redirected to the next room, immediately starting r343's event
-                # Also important to delete this event once it's done, we don't want it to start again
+                all_rooms.index('c278').remove_event('c278') # Also important to delete this event once it's done, we don't want it to start again
             else:
                 print("Your strength wasn't enough to force open the door.")
-                # Delete event here
+                all_rooms.index('c278').remove_event('c278') # Delete event here
         elif test == "N" or test == "n":
             print("You decide against forcing the door open.")
-            # Delete event here?
+            all_rooms.index('c278').remove_event('c278') # Delete event here
         else:
             pass # Invalid input handler?
             

@@ -1,6 +1,7 @@
 import random
 from Media.Sound import SoundPlayer
 
+
 class DiceRoller:
     def __init__(self, name):
         self.player = None

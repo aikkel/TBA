@@ -33,9 +33,14 @@ class SoundPlayer:
 # Create a SoundPlayer instance
 player = SoundPlayer()
 
-# Play the specific sound files
+# Play the specific sound files, testing purposes
 # player.play_lucky()
 # sleep(1)
 # player.play_unlucky()
 # sleep(1)
 # player.play_hero_attack()
+# sleep(1)
+# player.play_orc_attack()
+# sleep(1)
+# player.play_whoosh()
+# sleep(1)
