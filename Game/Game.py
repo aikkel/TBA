@@ -9,10 +9,9 @@ class Game:
         # Initialize the player
         self.player = Player("Player")
 
-    def encounter_monster(self):
-        # (Simulate the battle or other relevant actions)
-        # Update the player's level based on the battle result
-        self.player.stamina -= 10
+    # def encounter_monster(self):
+    #     # (Simulate the battle or other relevant actions)
+    #     self.player.stamina -= 10
 
     def save_game(self, filename="save.json"):
         save_data = {
