@@ -1,4 +1,4 @@
-all_rooms = [] # Initialize the list to store all rooms
+# all_rooms = [] # Initialize the list to store all rooms
 
 class Room:
     
@@ -9,9 +9,7 @@ class Room:
         self.exits = exits if exits is not None else {}     # Exit(s) from a room
         self.items = items if items is not None else []     # Item(s) found in a room
         self.events = events if events is not None else []  # Events in a room
-                                                            # Add the current room instance to the list of all rooms
-        all_rooms.append(self)
-        
+
 
     def get_description(self):
         description = self.description
@@ -48,12 +46,12 @@ class Room:
             self.exits[direction].append(room)
         else:
             self.exits[direction] = [room]
-    
+
+all_rooms = [] # Initialize the list to store all rooms  
 # Create rooms id, name, description, exits, items, events
-#rooms = []   # List to store all rooms
-c1 = Room('0', 'Cave Entrance', 'NEEDS DESCRIPTION.')
+c1 = Room("0", "Cave Entrance", "NEEDS DESCRIPTION.")
 c278 = Room("1", "Corridor 1", "NEEDS DESCRIPTION.")
-r343 = Room("2", "Pit", "NEEDS DESCRIPTION.")
+r343 = Room("2", "Pit", "NEEDS DESCRIPTION.") # pit should not be called pit probably
 c71 = Room("3", "Corridor 2", "NEEDS DESCRIPTION.")
 c301 = Room("4", "Corridor 3", "NEEDS DESCRIPTION.")
 r82 = Room("5", "NEED NAME", "NEEDS DESCRIPTION.")
@@ -87,7 +85,7 @@ r370.add_item("and another box")#in box is a Spellbook, used in demo/prototype, 
 # Add events to rooms(events dont really exist yet)
 r343.add_event('r343')# need to add a function to remove stamina
 c278.add_event('c278')# need to add a function to unlock door
-c71.add_event("sneak past the sleeping orc,roll luck")# need to add a function to sneak past orc
+c71.add_event("sneak past the sleeping orc, roll luck")# need to add a function to sneak past orc
 r82.add_event("sleeping orc, roll luck to sneak past, or fight")# need to add a function to sneak past orc
 r397.add_event("snake in the box, if opeen box, battle initiate")# need to add a function to trigger battle. if won get +1 luck
 r370.add_event("drunken monsters!? 2x orc")# need to add a function to trigger battle or run away. drunken state allow +1 to rolls
