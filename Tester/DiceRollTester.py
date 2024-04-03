@@ -18,7 +18,7 @@
 #     # def roll_dice_player(self, num_dice, modifier=0):
 #     #     roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + modifier
 #     #     return roll_total
-    
+
 #     def roll_dice_luck(self, player):
 #         luck_roll = random.randint(2, 12)
 #         if luck_roll <= player.luck:
@@ -35,7 +35,7 @@
 # #     def roll_dice_battle(num_dice, skill):
 # #         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill
 # #         return roll_total
-    
+
 # #     def conduct_battle(self, monster, roll_luck=False):
 # #         player_roll = self.roll_dice_battle(2, self.player.skill)
 # #         monster_roll = self.roll_dice_battle(2, monster.skill)

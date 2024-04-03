@@ -8,7 +8,7 @@ class Room:
         self.description = description                      # Room's description
         self.exits = exits if exits is not None else {}     # Exit(s) from a room
         self.items = items if items is not None else []     # Item(s) found in a room
-        self.events = events                                # Events in a room
+        self.events = events if events is not None else []  # Events in a room
 
 
     def get_description(self):

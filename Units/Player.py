@@ -18,12 +18,17 @@ class Player:
         self.luck = luck
 
     def move(self, direction):
+        from Scenarios.EventHandler import RunEvent
+
         if self.current_room and direction in self.current_room.exits:
             next_rooms = self.current_room.exits[direction]
             if len(next_rooms) == 1:
                 next_room = next_rooms[0]
                 self.current_room = next_room
                 print("You move to", self.current_room.name)
+                if self.current_room.events:
+                    RunEvent(self.current_room.events[0])
+
             elif len(next_rooms) > 1:
                 print("There are multiple rooms in that direction. Please specify:")
                 for i, room in enumerate(next_rooms):
@@ -48,12 +53,10 @@ class Player:
     # Update the current room of the player, can be used in event handling
     def update_current_room(self, room_id):
         from Maps.Rooms import all_rooms
-        from Scenarios.EventHandler import RunEvent
         #global all_rooms  # Access the global variable
         for room in all_rooms:
             if room.id == room_id:
                 self.current_room = room
-                RunEvent(room.events)
                 break
         else:
             print(f"Room with ID {room_id} not found.")
