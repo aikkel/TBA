@@ -1,13 +1,16 @@
-from Units.Player import player
 from Maps.Rooms import all_rooms
-import DiceRoller
+
 
 def RunEvent(roomID):
+    from Units.Player import Player
+    from Scenarios.DiceRoller import DiceRoller
+    # Create a Player instance with the DiceRoller instance
+    player_instance = Player("Player 1")
 
     if (roomID == 'r343'):
         print("A room. With a pit. The pit IS the room. You fall down the room pit and lose 1 Stamina. Now isn't that unfortunate.")
-        player.stamina -= 1
-        print(f"Your Stamina is now {player.stamina}.")
+        player_instance.stamina -= 1
+        print(f"Your Stamina is now {player_instance.stamina}.")
         all_rooms.index('r343').remove_event('r343') # I think this works for removing an event from a room
 
 
@@ -19,10 +22,10 @@ def RunEvent(roomID):
 
         if test == "Y" or test == "y":
             skillCheck = DiceRoller().roll_dice_player(2)
-            if skillCheck >= player.skills:
+            if skillCheck >= player_instance.skills:
                 print("You smash your way through the door, dashing through the frame and enter...")
                 all_rooms.index('c278').remove_event('c278') # Important to delete this event once it's done, we don't want it to start again
-                player.update_current_room('2', all_rooms) # Here you'd be redirected to the next room, immediately starting r343's event
+                player_instance.update_current_room('2', all_rooms) # Here you'd be redirected to the next room, immediately starting r343's event
             else:
                 print("Your strength wasn't enough to force open the door.")
                 all_rooms.index('c278').remove_event('c278') # Delete event here
@@ -34,7 +37,7 @@ def RunEvent(roomID):
 
         if (roomID == 'c71'):
             print("You spot a sleeping orc. You must test your luck here to get through without waking it up...")
-            luckCheck = DiceRoller().roll_dice_luck(player)
+            luckCheck = DiceRoller().roll_dice_luck(player_instance)
             if luckCheck == "lucky!":
                 print("You pass by without waking the orc. It doesn't appear like it will wake anytime soon.")
                 all_rooms.index('c71').remove_event('c71')
@@ -54,7 +57,7 @@ def RunEvent(roomID):
 
             if test == "Y" or test == "y":
                 print("You dash towards the box and...")
-                luckCheck = DiceRoller().roll_dice_luck(player)
+                luckCheck = DiceRoller().roll_dice_luck(player_instance)
                 if luckCheck == "lucky!":
                     print("...the orc snores loudly.")
                     # No battle.

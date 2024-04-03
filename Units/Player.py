@@ -1,6 +1,5 @@
 from Maps.Rooms import *
-from Maps.Rooms import all_rooms
-from Scenarios.EventHandler import RunEvent
+
 from Scenarios.DiceRoller import DiceRoller
 
 class Player:
@@ -48,6 +47,8 @@ class Player:
 
     # Update the current room of the player, can be used in event handling
     def update_current_room(self, room_id):
+        from Maps.Rooms import all_rooms
+        from Scenarios.EventHandler import RunEvent
         #global all_rooms  # Access the global variable
         for room in all_rooms:
             if room.id == room_id:

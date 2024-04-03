@@ -1,11 +1,6 @@
-import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 import random
 
-# Assuming the Media folder is in the same directory as this script
-from Media.Sound import SoundPlayer  # Assuming SoundPlayer is implemented correctly
+from Media.Sound import SoundPlayer
 
 class DiceRoller:
     def __init__(self, name, sound_player):
