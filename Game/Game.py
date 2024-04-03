@@ -1,6 +1,5 @@
 import json
 from Units.Player import Player
-from Maps.Rooms import all_rooms
 
 class Game:
     def __init__(self):
@@ -8,32 +7,36 @@ class Game:
 
     def initialize_game(self):
         # Initialize the player
-        self.player = Player("Player")
+        self.player = None
 
     def encounter_monster(self):
         # (Simulate the battle or other relevant actions)
         # Update the player's level based on the battle result
-        self.player.stamina -= 10
+        pass
 
     def save_game(self, filename="save.json"):
-        if self.player.current_room:
-            current_room_id = self.player.current_room.id
+        if self.player is not None:
+            if self.player.current_room:
+                current_room_id = self.player.current_room.id
+            else:
+                current_room_id = None
+
+            save_data = {
+                "player": {
+                    "name": self.player.name,
+                    "inventory": self.player.inventory,
+                    "skill": self.player.skill,
+                    "stamina": self.player.stamina,
+                    "luck": self.player.luck,
+                    "current_room_id": current_room_id  # Include the current room ID
+                },
+            }
+
+            with open(filename, "w") as file:
+                json.dump(save_data, file, indent=4)
+            print("Game saved successfully!")
         else:
-            current_room_id = None
-
-        save_data = {
-            "player": {
-                "name": self.player.name,
-                "inventory": self.player.inventory,
-                "skill": self.player.skill,
-                "stamina": self.player.stamina,
-                "luck": self.player.luck,
-                "current_room_id": current_room_id  # Include the current room ID
-            },
-        }
-
-        with open(filename, "w") as file:
-            json.dump(save_data, file, indent=4)
+            print("Error: No player instance.")
 
     def load_game(self, all_rooms, filename="save.json"):
         try:
@@ -63,15 +66,11 @@ class Game:
         except json.JSONDecodeError:
             print("Error decoding the save file.")
 
-
-    def RunGame():
-        # Create a player instance
-        player = Player("Player 1")
-        player.update_current_room('0', all_rooms)  # Sets the initial current room to c1
-
+    def RunGame(self, player, all_rooms):
+        self.player = player
         # Loop through the game until the player quits or exits
         while True:
-            current_room = player.current_room  # Get the current room from the player
+            current_room = self.player.current_room  # Get the current room from the player
 
             # Check if the current room is valid
             if current_room is None:
@@ -87,24 +86,11 @@ class Game:
             if action == "quit":
                 print("Goodbye!")
                 break
+            elif action == "save":
+                self.save_game()  # Save the game
+            elif action == "load":
+                self.load_game(all_rooms)  # Load the game
             elif action in current_room.exits:
-                player.move(action)  # Move the player to the specified direction
+                self.player.move(action)  # Move the player to the specified direction
             else:
-                print("Invalid action. Please enter a valid direction or command.")
-
-    # Call the RunGame function to start the game
-    RunGame()
-
-
-
-# Call the RunGame function to start the game
-    RunGame()
-
-# Create a game
-game_instance = Game()
-
-# Save the game
-game_instance.save_game()
-
-# Load the game
-game_instance.load_game(all_rooms)
+                print("Invalid action. Please enter a valid direction, 'save', 'load', or 'quit'.")

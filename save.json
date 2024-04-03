@@ -1,10 +1,10 @@
 {
     "player": {
-        "name": "Player",
+        "name": "Player 1",
         "inventory": [],
-        "skill": 10,
-        "stamina": 24,
-        "luck": 12,
-        "current_room_id": null
+        "skill": 12,
+        "stamina": 16,
+        "luck": 9,
+        "current_room_id": "3"
     }
 }

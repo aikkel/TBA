@@ -1,5 +1,6 @@
 from Maps.Rooms import *
 from Maps.Rooms import all_rooms
+from Scenarios.EventHandler import RunEvent
 from Scenarios.DiceRoller import DiceRoller
 
 class Player:
@@ -28,54 +29,31 @@ class Player:
                 print("There are multiple rooms in that direction. Please specify:")
                 for i, room in enumerate(next_rooms):
                     print(f"{i+1}. {room.name}")
-                choice = input("Enter the number of the room you want to move to: ")
-                try:
-                    choice_index = int(choice) - 1
-                    if 0 <= choice_index < len(next_rooms):
-                        next_room = next_rooms[choice_index]
-                        self.current_room = next_room
-                        print("You move to", self.current_room.name)
-                    else:
+                while True:
+                    choice = input("Enter the number of the room you want to move to: ")
+                    try:
+                        choice_index = int(choice) - 1
+                        if 0 <= choice_index < len(next_rooms):
+                            next_room = next_rooms[choice_index]
+                            self.current_room = next_room
+                            print("You move to", self.current_room.name)
+                            break  # Exit the loop after successfully moving
+                        else:
+                            print("Invalid choice.")
+                    except ValueError:
                         print("Invalid choice.")
-                except ValueError:
-                    print("Invalid choice.")
         else:
             print("You can't go that way.")
 
 
-
     # Update the current room of the player, can be used in event handling
-    def update_current_room(self, room_id, all_rooms):
+    def update_current_room(self, room_id):
+        #global all_rooms  # Access the global variable
         for room in all_rooms:
             if room.id == room_id:
                 self.current_room = room
+                RunEvent(room.events)
                 break
         else:
             print(f"Room with ID {room_id} not found.")
 
-    def get_description(self):
-        description = self.description
-        if self.items:
-            description += "\n\nYou see " + ", ".join(self.items) + " here."
-        if self.exits:
-            exit_descriptions = []
-            for direction, rooms in self.exits.items():
-                room_names = [room.name for room in rooms]
-                exit_descriptions.append(f"{direction}: {', '.join(room_names)}")
-            description += "\n\nYou can go " + ", ".join(exit_descriptions) + "."
-        if self.events:
-            description += "\n\nEvents: " + ", ".join(self.events)
-        return description
-
-
-# Create a player instance
-player = Player("Player 1")
-
-# Sets the initial current room to c1
-player.update_current_room('0', all_rooms)
-
-# Move the player to next rooms
-player.move("east")
-player.move("west")
-player.move("south")
-player.move("east")

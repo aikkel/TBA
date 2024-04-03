@@ -22,7 +22,7 @@ def RunEvent(roomID):
             if skillCheck >= player.skills:
                 print("You smash your way through the door, dashing through the frame and enter...")
                 all_rooms.index('c278').remove_event('c278') # Important to delete this event once it's done, we don't want it to start again
-                player.update_current_room('r343') # Here you'd be redirected to the next room, immediately starting r343's event
+                player.update_current_room('2', all_rooms) # Here you'd be redirected to the next room, immediately starting r343's event
             else:
                 print("Your strength wasn't enough to force open the door.")
                 all_rooms.index('c278').remove_event('c278') # Delete event here
@@ -37,8 +37,8 @@ def RunEvent(roomID):
             luckCheck = DiceRoller().roll_dice_luck(player)
             if luckCheck == "lucky!":
                 print("You pass by without waking the orc. It doesn't appear like it will wake anytime soon.")
-                # Delete event here
-                # update player.current_room?
+                all_rooms.index('c71').remove_event('c71')
+                # player.update_current_room('', all_rooms) Don't know which room it is yet
             elif luckCheck == "unlucky!":
                 print("The orc suddenly darts awake and eyes you aggressively!")
                 # Run a battle here
@@ -109,7 +109,7 @@ def RunEvent(roomID):
                 # Initialize battle
 
                 print("You approach the box and open it.")
-                print("You see a tome. It has some cryptic spell inside...")
+                print("You see a tome. It has some cryptic spell inside... something about Dragon Fire...?")
                 # I don't think the spell will be useful in this code specifically but eh
                 # Delete event
             
@@ -122,5 +122,5 @@ def RunEvent(roomID):
 
 
         else:
-            print("This event does not exist.")
+            print("DEBUG TEXT: There is no event here.")
             pass
