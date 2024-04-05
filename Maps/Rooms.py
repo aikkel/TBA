@@ -1,7 +1,6 @@
 # all_rooms = [] # Initialize the list to store all rooms
 
 class Room:
-    
     def __init__(self, id, name, description, exits=None, items=None, events=None):
         self.id = id                                        # Room's ID, how it is called
         self.name = name                                    # Room Name
@@ -94,16 +93,17 @@ c363.add_exit("west", r370)
 
 
 # Add items to rooms(items dont really exist yet)
-r82.add_item("box?") #box is an item containing item 1gold and a mouse that runs away +2 luck points
-r397.add_item("another box")# contain a snake, to battle
-r370.add_item("and another box")#in box is a Spellbook, used in demo/prototype, called how to cast dragon fire
+c1.add_item("Potion of Skill/Strength/Fortune") # At the start of the game, you can choose between one of three potions
+r82.add_item("box?")                            #box is an item containing item 1gold and a mouse that runs away +2 luck points
+r397.add_item("another box")                    # contain a snake, to battle
+r370.add_item("and another box")                #in box is a Spellbook, used in demo/prototype, called how to cast dragon fire
 
 # Add events to rooms
 # Please do not change the event names, they are used for EventHandler.py
 
-r343.add_event("r343")# need to add a function to remove stamina
-c278.add_event("c278")# need to add a function to unlock door
-c71.add_event("c71")# need to add a function to sneak past orc
-r82.add_event("r82")# need to add a function to sneak past orc
-r397.add_event("r397")# need to add a function to trigger battle. if won get +1 luck
-r370.add_event("r370")# need to add a function to trigger battle or run away. drunken state allow +1 to rolls
+r343.add_event("r343")  # need to add a function to remove stamina
+c278.add_event("c278")  # need to add a function to unlock door
+c71.add_event("c71")    # need to add a function to sneak past orc
+r82.add_event("r82")    # need to add a function to sneak past orc
+r397.add_event("r397")  # need to add a function to trigger battle. if won get +1 luck
+r370.add_event("r370")  # need to add a function to trigger battle or run away. drunken state allow +1 to rolls

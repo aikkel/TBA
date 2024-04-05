@@ -1,15 +1,20 @@
 import random
 
-from Media.Sound import SoundPlayer
+# from Media.Sound import SoundPlayer
+# from Units.Monster import Monster
 
 class DiceRoller:
     def __init__(self, name, sound_player):
         self.player = None
         self.name = name
         self.sound_player = sound_player  # Store the SoundPlayer instance
+        self.monster = None
 
     def set_player(self, player):
         self.player = player
+
+    def set_monster(self, monster):
+        self.monster = monster
 
     def roll_dice_player(self, num_dice, modifier=0):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + modifier
@@ -21,41 +26,54 @@ class DiceRoller:
             self.sound_player.play_sound('lucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
             print(f"You got lucky! Your luck is now {player.luck}")
-            return "lucky! " + str(player.luck)
+            return "lucky " + str(player.luck)
         else:
             self.sound_player.play_sound('unlucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
             print("You got unlucky! Damage decreased.")
-            return "unlucky!"
+            return "unlucky" + str(player.luck)
 
     def roll_dice_battle(self, num_dice, skill):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill
         return roll_total
+    
+    def conduct_battle(self, roll_luck=False):
+        if self.monster:
+            while self.player.stamina > 0 and self.monster.stamina > 0:
+                player_roll = self.roll_dice_battle(2, self.player.skill)
+                monster_roll = self.roll_dice_battle(2, self.monster.skill)
 
-    def conduct_battle(self, monster, roll_luck=False):
-        player_roll = self.roll_dice_battle(2, self.player.skill)
-        monster_roll = self.roll_dice_battle(2, monster.skill)
+                print(f"Player rolled {player_roll}. Monster rolled {monster_roll}.")
 
-        print(f"Player rolled {player_roll}. Monster rolled {monster_roll}.")
-
-        if player_roll > monster_roll:
-            print("Player wins!")
-            self.sound_player.play_sound('heroattack.wav')  # Use the stored SoundPlayer instance
-            if roll_luck:
-                luck_result = self.roll_dice_luck(self.player)
-                if "lucky" in luck_result:
-                    print("Player got lucky! Damage increased.")
+                if player_roll > monster_roll:
+                    self.player_attacks(roll_luck)
+                elif monster_roll > player_roll:
+                    self.monster_attacks(roll_luck)
                 else:
-                    print("Player got unlucky! Damage decreased.")
-        elif monster_roll > player_roll:
-            self.sound_player.play_sound('orcattack.wav')  # Use the stored SoundPlayer instance
-            print("Monster wins!")
+                    print("It's a tie!")
+
         else:
-            self.sound_player.play_sound('whoosh.wav')  # Use the stored SoundPlayer instance
-            print("It's a tie!")
+            print("Monster not found.")
 
-# Assuming you have instantiated SoundPlayer somewhere in your main program
-# sound_player = SoundPlayer()
+    def player_attacks(self, roll_luck):
+        print("Player wins!")
+        self.sound_player.play_sound('heroattack.wav')
+        self.apply_staminaLoss(self.monster, self.player, roll_luck)
 
-# Then you can create a DiceRoller instance like this
-# dice_roller = DiceRoller("Player", sound_player)
+    def monster_attacks(self, roll_luck):
+        print("Monster wins!")
+        self.sound_player.play_sound('orcattack.wav')
+        self.apply_staminaLoss(self.player, self.monster, roll_luck)
+
+    def apply_staminaLoss(self, attacker, defender, roll_luck):
+        staminaLoss = -2
+        if roll_luck:
+            luck_result = self.roll_dice_luck(attacker)
+            if "lucky" in luck_result:
+                print(f"{attacker.name} got lucky! Damage increased.")
+                staminaLoss -= 1
+            else:
+                print(f"{attacker.name} got unlucky! Damage decreased.")
+                staminaLoss += 1
+
+        defender.stamina += staminaLoss

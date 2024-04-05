@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import sqlite3
 from Media.Art import ArtReader
 
@@ -33,19 +34,39 @@ def retrieve_monsters_from_db(database_file, art_reader):
     conn.close()
 
     # Create Monster objects
-    monsters = []
+    # monsters = []
+    # for monster_data in monsters_data:
+    #     monster = Monster(*monster_data, art_reader)
+    #     monsters.append(monster)
+
+    # return monsters
+
+    # # Usage example
+# art_reader = ArtReader('Media/Art.txt')
+
+# # Retrieve monsters from the database
+# monsters = retrieve_monsters_from_db('monsters.db', art_reader)
+
+# # Display art for each monster
+# for monster in monsters:
+#     monster.show_art()
+
+    monsters = {}
     for monster_data in monsters_data:
         monster = Monster(*monster_data, art_reader)
-        monsters.append(monster)
+        monsters[monster.id] = monster
 
     return monsters
-
 # Usage example
 art_reader = ArtReader('Media/Art.txt')
 
 # Retrieve monsters from the database
 monsters = retrieve_monsters_from_db('monsters.db', art_reader)
 
-# Display art for each monster
-for monster in monsters:
+# Accessing individual monsters by ID
+monster_id = 1
+monster = monsters.get(monster_id)
+if monster:
     monster.show_art()
+else:
+    print(f"Monster with ID {monster_id} not found.")
