@@ -12,6 +12,8 @@ class Game:
         self.sound_player = sound_player
         self.dice_roller = DiceRoller("Dice Roller", sound_player)
         self.initialize_game()
+        # Start a thread to play the music loop
+        self.start_music_loop_thread()
 
     def initialize_game(self):
         # Initialize the player
@@ -29,6 +31,11 @@ class Game:
     def play_music_loop(self):
         while True:
             self.sound_player.play_titel()
+
+    def start_music_loop_thread(self):
+        music_thread = threading.Thread(target=self.play_music_loop)
+        music_thread.daemon = True
+        music_thread.start()
 
     def save_game(self, filename="save.json"):
         if self.player is not None:
@@ -85,11 +92,6 @@ class Game:
     def RunGame(self, player, all_rooms):
         self.player = player
         Game.show_title(self)
-
-        # Start a thread to play the music loop
-        music_thread = threading.Thread(target=self.play_music_loop)
-        music_thread.daemon = True
-        music_thread.start()
 
         # Loop through the game until the player quits or exits
         while True:
