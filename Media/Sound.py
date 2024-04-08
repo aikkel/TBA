@@ -30,6 +30,9 @@ class SoundPlayer:
     def play_unlucky(self):
         self.play_sound('unlucky.wav')
 
+    def play_titel(self):
+        self.play_sound('titelMusic.wav')
+
 # Create a SoundPlayer instance
 player = SoundPlayer()
 
@@ -44,3 +47,4 @@ player = SoundPlayer()
 # sleep(1)
 # player.play_whoosh()
 # sleep(1)
+# player.play_titel()

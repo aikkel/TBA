@@ -32,25 +32,7 @@ def retrieve_monsters_from_db(database_file, art_reader):
 
     # Close connection
     conn.close()
-
-    # Create Monster objects
-    # monsters = []
-    # for monster_data in monsters_data:
-    #     monster = Monster(*monster_data, art_reader)
-    #     monsters.append(monster)
-
-    # return monsters
-
-    # # Usage example
-# art_reader = ArtReader('Media/Art.txt')
-
-# # Retrieve monsters from the database
-# monsters = retrieve_monsters_from_db('monsters.db', art_reader)
-
-# # Display art for each monster
-# for monster in monsters:
-#     monster.show_art()
-
+    
     monsters = {}
     for monster_data in monsters_data:
         monster = Monster(*monster_data, art_reader)

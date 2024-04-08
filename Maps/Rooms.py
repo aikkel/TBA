@@ -50,8 +50,8 @@ class Room:
 all_rooms = [] # Initialize the list to store all rooms  
 # Create rooms id, name, description, exits, items, events
 c1 = Room("0", "Cave Entrance", "You peer into the gloom to see dark, slimy walls with pools of water on the stone floor in front of you. The air is cold and dank.")
-c278 = Room("1", "Corridor(1)", "The passageway soon comes to an end at a blocked wooden door. You listen to the door but hear nothing. Will you try to charge the door down?")
-r343 = Room("2", "Locked door", "The door bursts open and you fall headlong into a room. Bur your heart jumps as you realize you are not landing on the floor, but plunging down a pit!")
+c278 = Room("1", "Corridor(1)", "The passageway soon comes to an end at a blocked wooden door. You listen to the door but hear nothing.")
+r343 = Room("2", "Locked door", "The door bursts open and you fall headlong into a room. But your heart jumps as you realize you are not landing on the floor, but plunging down a pit!")
 c71 = Room("3", "Corridor(2)", "You can see a strange Goblin-like creature in leather armour asleep at his post. You try to tiptoe past him. Test your luck.")
 c301 = Room("4", "Corridor(3)", "There is a rough-cut wooden door. You can hear a rasping sound which may be some sort of creature snoring. Do you want to open the door?")
 r82 = Room("5", "Room with a rasping noice", "Asleep is the same sort of creature that you found at the sentry post. You may creep into the room and try to take the box. Do you wanna test your luck?")
@@ -72,7 +72,7 @@ c71.add_exit("east", c1)
 c71.add_exit("north", c301)
 
 c278.add_exit("west", c1)
-c278.add_exit("east", r343)
+# c278.add_exit("east", r343)
 
 r343.add_exit("west", c278)
 
@@ -94,7 +94,7 @@ c363.add_exit("west", r370)
 
 # Add items to rooms(items dont really exist yet)
 c1.add_item("Potion of Skill/Strength/Fortune") # At the start of the game, you can choose between one of three potions
-r82.add_item("box?")                            #box is an item containing item 1gold and a mouse that runs away +2 luck points
+r82.add_item("box?")                            # box is an item containing item 1gold and a mouse that runs away +2 luck points
 r397.add_item("another box")                    # contain a snake, to battle
 r370.add_item("and another box")                #in box is a Spellbook, used in demo/prototype, called how to cast dragon fire
 

@@ -1,7 +1,4 @@
 from Maps.Rooms import all_rooms
-# instead of having all these else statements, you could have a dictionary of roomID: function pairs
-# also player input is repeated alot, you could make a function for that, to reduce code duplication
-# food for thought when we start doing code extraction and refactoring
 
 def GetInput(prompt):
     print(prompt)
@@ -20,12 +17,13 @@ def RunEvent(roomID):
     # Create a Player instance with the DiceRoller instance
     player_instance = Player("Player 1")
     dice_roller = DiceRoller(None, None)
+
+    
     if (roomID == 'r343'):
-        print("A room. With a pit. The pit IS the room. You fall down the room pit and lose 1 Stamina. Now isn't that unfortunate.")
+        print("You charge through the door and enter a room. With a pit. The pit IS the room. You fall down the room pit and lose 1 Stamina. Now isn't that unfortunate.")
         player_instance.stamina -= 1
         print(f"Your Stamina is now {player_instance.stamina}.")
-        all_rooms[2].remove_event('r343') # I think this works for removing an event from a room
-        player_instance.update_current_room('2', all_rooms)
+        all_rooms[2].remove_event('r343') # for removing an event from a room
 
 
     elif (roomID == 'c278'):
@@ -36,13 +34,17 @@ def RunEvent(roomID):
 
         if test:
             skillCheck = dice_roller.roll_dice_player(2)
+            print(f"The requirement for this roll is {player_instance.skill}!")
+            print(f"You roll a {skillCheck}!")
             if skillCheck >= player_instance.skill:
-                print("You smash your way through the door, dashing through the frame and enter...")
+                print("You barrel into the door with great strength, loosening it.")
+                print("You should be able to proceed with one more charge...")
                 all_rooms[1].remove_event('c278') # Delete event here
-                # Here you'd be redirected to the next room, immediately starting r343's event
-                player_instance.update_current_room('1', all_rooms) 
+                all_rooms[1].add_exit("east", all_rooms[2])
+                # here is where you would add an exit to the east to enter the locked door
+
             else:
-                print("Your strength wasn't enough to force open the door.")
+                print("It won't budge at all. You decide against wasting any more of your strength on this door.")
                 all_rooms[1].remove_event('c278') # Delete event here
         else:
             print("You decide against forcing the door open.")

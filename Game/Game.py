@@ -1,8 +1,13 @@
 import json
 from Units.Player import Player
+from Media.Sound import SoundPlayer
+from Media.Art import ArtReader
+from time import sleep
+import threading
 
 class Game:
-    def __init__(self):
+    def __init__(self, sound_player):
+        self.sound_player = sound_player
         self.initialize_game()
 
     def initialize_game(self):
@@ -13,6 +18,14 @@ class Game:
         # (Simulate the battle or other relevant actions)
         # Update the player's level based on the battle result
         pass
+    
+    def show_title(self):
+        art_reading = ArtReader('Media/Art.txt')
+        art_reading.titel()
+    
+    def play_music_loop(self):
+        while True:
+            self.sound_player.play_titel()
 
     def save_game(self, filename="save.json"):
         if self.player is not None:
@@ -43,20 +56,20 @@ class Game:
             with open(filename, "r") as file:
                 save_data = json.load(file)
 
-            player_data = save_data["player"]
-            self.player = Player(player_data["name"])
-            self.player.inventory = player_data["inventory"]
-            self.player.skill = player_data["skill"]
-            self.player.stamina = player_data["stamina"]
-            self.player.luck = player_data["luck"]
+                player_data = save_data["player"]
+                self.player = Player(player_data["name"])
+                self.player.inventory = player_data["inventory"]
+                self.player.skill = player_data["skill"]
+                self.player.stamina = player_data["stamina"]
+                self.player.luck = player_data["luck"]
 
-            # Load the current room if available
-            current_room_id = player_data.get("current_room_id")
-            if current_room_id:
-                for room in all_rooms:
-                    if room.id == current_room_id:
-                        self.player.current_room = room
-                        break
+                # Load the current room if available
+                current_room_id = player_data.get("current_room_id")
+                if current_room_id:
+                    for room in all_rooms:
+                        if room.id == current_room_id:
+                            self.player.current_room = room
+                            break
                 else:
                     print(f"Error: Current room with ID {current_room_id} not found.")
 
@@ -68,6 +81,13 @@ class Game:
 
     def RunGame(self, player, all_rooms):
         self.player = player
+        Game.show_title(self)
+
+        # Start a thread to play the music loop
+        music_thread = threading.Thread(target=self.play_music_loop)
+        music_thread.daemon = True
+        music_thread.start()
+
         # Loop through the game until the player quits or exits
         while True:
             current_room = self.player.current_room  # Get the current room from the player
@@ -77,8 +97,21 @@ class Game:
                 print("Error: Player is not in any room.")
                 break
 
+            # Extract possible exits and their names from the description
+            description_lines = current_room.get_description().split('\n\n')
+            room_description = description_lines[0]
+            possible_exits = []
+            for line in description_lines[1:]:
+                if line.startswith("You can go "):
+                    possible_exits = line[len("You can go "):].split(", ")
+                    break
+
             # Print the current room description
-            print(current_room.get_description())
+            print(room_description)
+
+            # Display possible exits to the player
+            if possible_exits:
+                print("Possible exits: ", ", ".join(possible_exits))
 
             # Get user input for direction or other actions
             action = input("Enter your action (direction or command): ").strip().lower()
@@ -93,4 +126,4 @@ class Game:
             elif action in current_room.exits:
                 self.player.move(action)  # Move the player to the specified direction
             else:
-                print("Invalid action. Please enter a valid direction, 'save', 'load', or 'quit'.")
+                print(f"Invalid action. Please enter a valid direction {', '.join(current_room.exits.keys())}, 'save', 'load', or 'quit'.")
