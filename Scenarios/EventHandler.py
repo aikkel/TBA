@@ -1,4 +1,5 @@
 from Maps.Rooms import all_rooms
+import Units.Monster as monsters
 
 def GetInput(prompt):
     print(prompt)
@@ -11,12 +12,12 @@ def GetInput(prompt):
         print("Invalid input. Please enter Y or N.")
         return GetInput(prompt)
 
-def RunEvent(roomID):
-    from Units.Player import Player
-    from Scenarios.DiceRoller import DiceRoller
+def RunEvent(roomID, dice_roller, player_instance):
+    # from Units.Player import Player
+    # from Scenarios.DiceRoller import DiceRoller
     # Create a Player instance with the DiceRoller instance
-    player_instance = Player("Player 1")
-    dice_roller = DiceRoller(None, None)
+    # player_instance = Player("Player 1")
+    # dice_roller = DiceRoller(None, None)
 
     
     if (roomID == 'r343'):
@@ -59,8 +60,8 @@ def RunEvent(roomID):
             # player.update_current_room('', all_rooms) Don't know which room it is yet
         elif luckCheck == "unlucky!":
             print("The orc suddenly darts awake and eyes you aggressively!")
-            # Run a battle here
-            # Don't know how to handle battle stuff
+            encounter = monsters.get(4) #ID 4
+            dice_roller.conduct_battle(player_instance, encounter) #Starts battle.
             all_rooms[3].remove_event('c71')
         
 

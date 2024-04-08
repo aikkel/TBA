@@ -19,6 +19,11 @@ class ArtReader:
         self.lastLine = 132
         self.read_lines()
 
+    def you_died(self):
+        self.firstLine = 134
+        self.lastLine = 139
+        self.read_lines()
+
     def read_lines(self):
         if self.firstLine is None or self.lastLine is None:
             print("Please set the firstLine and lastLine before reading lines.")

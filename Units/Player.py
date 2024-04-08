@@ -3,14 +3,15 @@ from Maps.Rooms import *
 from Scenarios.DiceRoller import DiceRoller
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, sound_player):
         self.name = name
         self.inventory = []
-        self.dice_roller = DiceRoller(name, sound_player=None)  # Pass player's name to DiceRoller
+        self.dice_roller = DiceRoller(name, sound_player=sound_player)  # Pass the sound_player object
         self.skill = self.dice_roller.roll_dice_player(1, 6)
         self.stamina = self.dice_roller.roll_dice_player(2, 12)
         self.luck = self.dice_roller.roll_dice_player(1, 6)
         self.current_room = None  # Initialize current room as None
+
 
     def set_stats(self, skill, stamina, luck):
         self.skill = skill
@@ -27,7 +28,7 @@ class Player:
                 self.current_room = next_room
                 print("You move to", self.current_room.name)
                 if self.current_room.events:
-                    RunEvent(self.current_room.events[0])
+                    RunEvent(self.current_room.events[0],self.dice_roller, self)
 
             elif len(next_rooms) > 1:
                 print("There are multiple rooms in that direction. Please specify:")

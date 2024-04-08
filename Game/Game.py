@@ -1,6 +1,8 @@
 import json
 from Units.Player import Player
-from Media.Sound import SoundPlayer
+# from Media.Sound import SoundPlayer
+from Scenarios.DiceRoller import DiceRoller
+from Scenarios.EventHandler import RunEvent
 from Media.Art import ArtReader
 from time import sleep
 import threading
@@ -8,6 +10,7 @@ import threading
 class Game:
     def __init__(self, sound_player):
         self.sound_player = sound_player
+        self.dice_roller = DiceRoller("Dice Roller", sound_player)
         self.initialize_game()
 
     def initialize_game(self):
@@ -125,5 +128,10 @@ class Game:
                 self.load_game(all_rooms)  # Load the game
             elif action in current_room.exits:
                 self.player.move(action)  # Move the player to the specified direction
+                # Check if the new room has events defined
+                if self.player.current_room.events:
+                    RunEvent(self.player.current_room.events[0], self.dice_roller, self.player)
+                else:
+                    print("There are no events in this room.")
             else:
                 print(f"Invalid action. Please enter a valid direction {', '.join(current_room.exits.keys())}, 'save', 'load', or 'quit'.")

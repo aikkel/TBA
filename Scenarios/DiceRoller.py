@@ -37,8 +37,14 @@ class DiceRoller:
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill
         return roll_total
     
-    def conduct_battle(self, roll_luck=False):
+    def conduct_battle(self):
         if self.monster:
+            roll_luck = input("Do you want to use your luck during the battle? (Y/N): ").strip().lower()
+            if roll_luck == 'y':
+                roll_luck = True
+            else:
+                roll_luck = False
+
             while self.player.stamina > 0 and self.monster.stamina > 0:
                 player_roll = self.roll_dice_battle(2, self.player.skill)
                 monster_roll = self.roll_dice_battle(2, self.monster.skill)

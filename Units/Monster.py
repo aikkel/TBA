@@ -22,28 +22,29 @@ class Monster:
         else:
             print("No art available for this monster.")
 
-def retrieve_monsters_from_db(database_file, art_reader):
-    conn = sqlite3.connect(database_file)
-    c = conn.cursor()
-
-    # Retrieve data from the monsters table
-    c.execute('SELECT * FROM monsters')
-    monsters_data = c.fetchall()
-
-    # Close connection
-    conn.close()
     
-    monsters = {}
-    for monster_data in monsters_data:
-        monster = Monster(*monster_data, art_reader)
-        monsters[monster.id] = monster
+    def retrieve_monsters_from_db(database_file, art_reader):
+        conn = sqlite3.connect(database_file)
+        c = conn.cursor()
 
-    return monsters
+        # Retrieve data from the monsters table
+        c.execute('SELECT * FROM monsters')
+        monsters_data = c.fetchall()
+
+        # Close connection
+        conn.close()
+        
+        monsters = {}
+        for monster_data in monsters_data:
+            monster = Monster(*monster_data, art_reader)
+            monsters[monster.id] = monster
+
+        return monsters
 # Usage example
 art_reader = ArtReader('Media/Art.txt')
 
 # Retrieve monsters from the database
-monsters = retrieve_monsters_from_db('monsters.db', art_reader)
+monsters = Monster.retrieve_monsters_from_db('monsters.db', art_reader)
 
 # Accessing individual monsters by ID
 monster_id = 1
