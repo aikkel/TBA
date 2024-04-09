@@ -9,6 +9,11 @@ from Units.Player import Player
 from Maps.Rooms import all_rooms
 from Media.Sound import SoundPlayer
 
+def play_background_sounds(sound_player):
+    while True:
+        sound_player.play_titel()
+        sleep(32)
+
 def main(sound_player, sound_lock):
     player = Player("Player 1", sound_player)
     player.update_current_room('0')
@@ -18,11 +23,6 @@ def main(sound_player, sound_lock):
     game_instance.RunGame(player, all_rooms)
 
     return player
-
-def play_background_sounds(sound_player):
-    while True:
-        sound_player.play_titel()
-        sleep(32)
 
 if __name__ == "__main__":
     sound_player = SoundPlayer()

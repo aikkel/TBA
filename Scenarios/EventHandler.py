@@ -62,8 +62,9 @@ def RunEvent(roomID, dice_roller, player_instance):
             monster_id = 4  # Set the monster ID here
             encounter = monsters.Monster.retrieve_monster_from_db('monsters.db', art_reader, monster_id)
             if encounter:
-                dice_roller.set_monster(encounter)  # Set the monster for the battle
-                dice_roller.conduct_battle()  # Start the battle.
+                monster = encounter  # Assign the encounter to the monster variable
+                dice_roller.set_monster(monster)  # Set the monster for the battle
+                dice_roller.conduct_battle(player_instance, monster)  # Start the battle.
             else:
                 print(f"Monster with ID {monster_id} not found.")
             all_rooms[3].remove_event('c71') 
@@ -138,3 +139,5 @@ def RunEvent(roomID, dice_roller, player_instance):
     else:
         print("DEBUG TEXT: There is no event here.")
         pass
+
+#  
