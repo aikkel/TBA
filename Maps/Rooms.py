@@ -1,5 +1,3 @@
-# all_rooms = [] # Initialize the list to store all rooms
-
 class Room:
     def __init__(self, id, name, description, exits=None, items=None, events=None):
         self.id = id                                        # Room's ID, how it is called

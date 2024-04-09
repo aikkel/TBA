@@ -30,7 +30,7 @@ class DiceRoller:
         else:
             self.sound_player.play_sound('unlucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
-            print("You got unlucky! Damage decreased.")
+            print(f"You got unlucky! Your luck is now {player.luck}.")
             return "unlucky" + str(player.luck)
 
     def roll_dice_battle(self, num_dice, skill):

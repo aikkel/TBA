@@ -1,50 +1,55 @@
 import os
-import winsound
-from time import sleep
+import threading
+from playsound import playsound
 
 class SoundPlayer:
     def __init__(self):
-        # Get the directory path of the current script
         self.folder_path = os.path.dirname(os.path.abspath(__file__))
+        self.music_playing = False
+        self.music_thread = None
+        self.music_lock = threading.Lock()
 
     def play_sound(self, sound_file):
-        # Construct the full path to the sound file
         sound_path = os.path.join(self.folder_path, sound_file)
+        playsound(sound_path)
 
-        # Play the sound file using winsound
-        print(sound_path)
-        winsound.PlaySound(sound_path, winsound.SND_FILENAME)
+    def play_background_music(self, music_file):
+        self.music_playing = True
+        while self.music_playing:
+            sound_path = os.path.join(self.folder_path, music_file)
+            playsound(sound_path)
+
+    def start_music_loop_thread(self, music_file='titelMusic.wav'):
+        with self.music_lock:
+            if not self.music_playing:
+                self.music_thread = threading.Thread(
+                    target=self.play_background_music,
+                    args=(music_file,),
+                    daemon=True
+                )
+                self.music_thread.start()
+                self.music_playing = True
+
+    def stop_music_loop_thread(self):
+        with self.music_lock:
+            self.music_playing = False
+            if self.music_thread:
+                self.music_thread.join()
 
     def play_whoosh(self):
-        self.play_sound('whoosh.wav')
+        threading.Thread(target=self.play_sound, args=('whoosh.wav',)).start()
 
     def play_hero_attack(self):
-        self.play_sound('heroattack.wav')
+        threading.Thread(target=self.play_sound, args=('heroattack.wav',)).start()
 
     def play_orc_attack(self):
-        self.play_sound('orcattack.wav')
+        threading.Thread(target=self.play_sound, args=('orcattack.wav',)).start()
 
     def play_lucky(self):
-        self.play_sound('lucky.wav')
+        threading.Thread(target=self.play_sound, args=('lucky.wav',)).start()
 
     def play_unlucky(self):
-        self.play_sound('unlucky.wav')
+        threading.Thread(target=self.play_sound, args=('unlucky.wav',)).start()
 
     def play_titel(self):
-        self.play_sound('titelMusic.wav')
-
-# Create a SoundPlayer instance
-player = SoundPlayer()
-
-# Play the specific sound files, testing purposes
-# player.play_lucky()
-# sleep(1)
-# player.play_unlucky()
-# sleep(1)
-# player.play_hero_attack()
-# sleep(1)
-# player.play_orc_attack()
-# sleep(1)
-# player.play_whoosh()
-# sleep(1)
-# player.play_titel()
+        threading.Thread(target=self.play_sound, args=('titelMusic.wav',)).start()
