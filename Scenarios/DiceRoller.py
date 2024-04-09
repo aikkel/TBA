@@ -26,44 +26,52 @@ class DiceRoller:
             self.sound_player.play_sound('lucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
             print(f"You got lucky! Your luck is now {player.luck}")
-            return "lucky " + str(player.luck)
+            return "lucky!"
         else:
             self.sound_player.play_sound('unlucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
-            print("You got unlucky! Damage decreased.")
-            return "unlucky" + str(player.luck)
+            print(f"You got unlucky! Your luck is now {player.luck}.")
+            return "unlucky!"
 
     def roll_dice_battle(self, num_dice, skill):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill
         return roll_total
     
-    def conduct_battle(self, roll_luck=False):
-        if self.monster:
-            while self.player.stamina > 0 and self.monster.stamina > 0:
-                player_roll = self.roll_dice_battle(2, self.player.skill)
-                monster_roll = self.roll_dice_battle(2, self.monster.skill)
+    def conduct_battle(self, player_instance, monster):
+        if monster:
+            roll_luck = input("Do you want to use your luck during the battle? (Y/N): ").strip().lower()
+            if roll_luck == 'y':
+                roll_luck = True
+            else:
+                roll_luck = False
+
+            while player_instance.stamina > 0 and monster.stamina > 0:
+                player_roll = self.roll_dice_battle(2, player_instance.skill)
+                monster_roll = self.roll_dice_battle(2, monster.skill)
 
                 print(f"Player rolled {player_roll}. Monster rolled {monster_roll}.")
 
                 if player_roll > monster_roll:
-                    self.player_attacks(roll_luck)
+                    self.player_attacks(player_instance, roll_luck)
                 elif monster_roll > player_roll:
-                    self.monster_attacks(roll_luck)
+                    self.monster_attacks(monster, roll_luck)
                 else:
                     print("It's a tie!")
 
         else:
             print("Monster not found.")
 
-    def player_attacks(self, roll_luck):
+    def player_attacks(self, player_instance, roll_luck):
         print("Player wins!")
         self.sound_player.play_sound('heroattack.wav')
-        self.apply_staminaLoss(self.monster, self.player, roll_luck)
+        self.apply_staminaLoss(player_instance, self.monster, roll_luck)
 
-    def monster_attacks(self, roll_luck):
+    def monster_attacks(self, monster, roll_luck):
         print("Monster wins!")
         self.sound_player.play_sound('orcattack.wav')
-        self.apply_staminaLoss(self.player, self.monster, roll_luck)
+        self.apply_staminaLoss(self.player, monster, roll_luck)
+
+
 
     def apply_staminaLoss(self, attacker, defender, roll_luck):
         staminaLoss = -2
