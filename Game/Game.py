@@ -8,6 +8,7 @@ from Media.Art import ArtReader
 
 class Game:
     def __init__(self, sound_player, sound_lock):
+        self.player_lock = threading.Lock()  # Create a lock for player data
         self.sound_player = sound_player
         self.sound_lock = sound_lock  # Store the sound lock
         
@@ -25,8 +26,9 @@ class Game:
         art_reading.titel()
 
     def save_game(self, filename="save.json"):
+        self.player_lock.acquire()
         try:
-            with self.player_lock:  # Acquire lock before accessing/modifying player data
+            with open(filename, "w") as file:
                 if self.player:
                     current_room_id = self.player.current_room.id if self.player.current_room else None
                     save_data = {
@@ -39,9 +41,7 @@ class Game:
                             "current_room_id": current_room_id
                         },
                     }
-
-                    with open(filename, "w") as file:
-                        json.dump(save_data, file, indent=4)
+                    json.dump(save_data, file, indent=4)
                     print("Game saved successfully!")
                 else:
                     print("Error: No player instance.")
@@ -49,14 +49,15 @@ class Game:
             self.player_lock.release()  # Release lock after operation is complete
 
     def load_game(self, all_rooms, filename="save.json"):
+        self.player_lock.acquire()
         try:
-            with self.player_lock:  # Acquire lock before accessing/modifying player data
+            try:
                 with open(filename, "r") as file:
                     save_data = json.load(file)
-
                     player_data = save_data.get("player")
                     if player_data:
-                        self.player = Player(player_data["name"])
+                        # Pass the required arguments to the Player constructor
+                        self.player = Player(player_data["name"], self.sound_player)
                         self.player.inventory = player_data["inventory"]
                         self.player.skill = player_data["skill"]
                         self.player.stamina = player_data["stamina"]
@@ -68,16 +69,19 @@ class Game:
                                 if room.id == current_room_id:
                                     self.player.current_room = room
                                     break
-                        else:
-                            print(f"Error: Current room with ID {current_room_id} not found.")
+                            else:
+                                print(f"Error: Current room with ID {current_room_id} not found.")
                     else:
                         print("Error: No player data found.")
 
                 print("Game loaded successfully!")
-        except FileNotFoundError:
-            print("No save file found.")
-        except json.JSONDecodeError:
-            print("Error decoding the save file.")
+            except FileNotFoundError:
+                print("No save file found.")
+            except json.JSONDecodeError:
+                print("Error decoding the save file.")
+        finally:
+            self.player_lock.release()  # Release lock after operation is complete
+
 
     def RunGame(self, player, all_rooms):
         self.player = player
@@ -90,17 +94,17 @@ class Game:
                 print("Error: Player is not in any room.")
                 break
 
-            # description_lines = current_room.get_description().split('\n\n')
-            # room_description = description_lines[0]
-            # possible_exits = [line[len("You can go "):].split(", ") for line in description_lines[1:] if line.startswith("You can go ")][0] if description_lines[1:] else []
-
             description_lines = current_room.get_description().split('\n\n')
             room_description = description_lines[0]
-            possible_exits = []
-            for line in description_lines[1:]:
-                if line.startswith("You can go "):
-                    possible_exits = line[len("You can go "):].split(", ")
-                    break
+            possible_exits = [line[len("You can go "):].split(", ") for line in description_lines[1:] if line.startswith("You can go ")][0] if description_lines[1:] else []
+
+            # description_lines = current_room.get_description().split('\n\n')
+            # room_description = description_lines[0]
+            # possible_exits = []
+            # for line in description_lines[1:]:
+            #     if line.startswith("You can go "):
+            #         possible_exits = line[len("You can go "):].split(", ")
+            #         break
 
             print(room_description)
             if possible_exits:
@@ -118,7 +122,9 @@ class Game:
             elif action in current_room.exits:
                 self.player.move(action)
                 if self.player.current_room.events:
-                    RunEvent(self.player.current_room.events[0], self.dice_roller, self.player)
+                    # Create a Player instance with the required arguments
+                    player_instance = Player("Player 1", self.dice_roller.sound_player)
+                    RunEvent(self.player.current_room.events[0], self.dice_roller, player_instance)
                 else:
                     print("There are no events in this room.")
             else:

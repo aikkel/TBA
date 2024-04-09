@@ -26,12 +26,12 @@ class DiceRoller:
             self.sound_player.play_sound('lucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
             print(f"You got lucky! Your luck is now {player.luck}")
-            return "lucky " + str(player.luck)
+            return "lucky!"
         else:
             self.sound_player.play_sound('unlucky.wav')  # Use the stored SoundPlayer instance
             player.luck -= 1
             print(f"You got unlucky! Your luck is now {player.luck}.")
-            return "unlucky" + str(player.luck)
+            return "unlucky!"
 
     def roll_dice_battle(self, num_dice, skill):
         roll_total = sum([random.randint(1, 6) for _ in range(num_dice)]) + skill

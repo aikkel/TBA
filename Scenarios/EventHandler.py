@@ -13,11 +13,11 @@ def GetInput(prompt):
         return GetInput(prompt)
 
 def RunEvent(roomID, dice_roller, player_instance):
-    #from Units.Player import Player
-    # from Scenarios.DiceRoller import DiceRoller
-    # Create a Player instance with the DiceRoller instance
-    #player_instance = Player("Player 1")
-    # dice_roller = DiceRoller(None, None)
+    from Media.Art import art_reader  # Import the art_reader object from the Media.Art module
+    from Units.Player import Player  # Import the Player class here
+
+    # Create a Player instance with the required arguments
+    player_instance = Player("Player 1", dice_roller.sound_player)
 
     
     if (roomID == 'r343'):
@@ -57,12 +57,16 @@ def RunEvent(roomID, dice_roller, player_instance):
         if luckCheck == "lucky!":
             print("You pass by without waking the orc. It doesn't appear like it will wake anytime soon.")
             all_rooms[3].remove_event('c71')
-            # player.update_current_room('', all_rooms) Don't know which room it is yet
         elif luckCheck == "unlucky!":
             print("The orc suddenly darts awake and eyes you aggressively!")
-            encounter = monsters.get(4) #ID 4
-            dice_roller.conduct_battle(player_instance, encounter) #Starts battle.
-            all_rooms[3].remove_event('c71')
+            monster_id = 4  # Set the monster ID here
+            encounter = monsters.Monster.retrieve_monster_from_db('monsters.db', art_reader, monster_id)
+            if encounter:
+                dice_roller.set_monster(encounter)  # Set the monster for the battle
+                dice_roller.conduct_battle()  # Start the battle.
+            else:
+                print(f"Monster with ID {monster_id} not found.")
+            all_rooms[3].remove_event('c71') 
         
 
     elif (roomID == 'r82'): # Room with box and sleeping orc
