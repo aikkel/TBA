@@ -39,6 +39,7 @@ class DiceRoller:
     
     def conduct_battle(self, player_instance, monster):
         if monster:
+            self.monster.show_art()
             roll_luck = input("Do you want to use your luck during the battle? (Y/N): ").strip().lower()
             if roll_luck == 'y':
                 roll_luck = True

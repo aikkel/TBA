@@ -41,12 +41,12 @@ class Monster:
 
 
 # Usage example
-art_reader = ArtReader('Media/Art.txt')
+# art_reader = ArtReader('Media/Art.txt')
 
 # Retrieve monster with ID 1 from the database
 # monster = Monster.retrieve_monster_from_db('monsters.db', art_reader, None)
 
-# If the monster exists, show its art
+#If the monster exists, show its art
 # if monster:
 #     monster.show_art()
 # else:
