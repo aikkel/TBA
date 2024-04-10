@@ -14,7 +14,7 @@ class Room:
             description += "\n\nYou see " + ", ".join(self.items) + " here."
         if self.exits:
             exit_descriptions = []
-            for direction, rooms in self.exits.items():
+            for direction, rooms in self.exits.items(): 
                 room_names = [room.name for room in rooms]
                 exit_descriptions.append(f"{direction}: {', '.join(room_names)}")
                 description += "\n\nYou can go " + ", ".join(exit_descriptions) + "."
