@@ -98,14 +98,6 @@ class Game:
             room_description = description_lines[0]
             possible_exits = [line[len("You can go "):].split(", ") for line in description_lines[1:] if line.startswith("You can go ")][0] if description_lines[1:] else []
 
-            # description_lines = current_room.get_description().split('\n\n')
-            # room_description = description_lines[0]
-            # possible_exits = []
-            # for line in description_lines[1:]:
-            #     if line.startswith("You can go "):
-            #         possible_exits = line[len("You can go "):].split(", ")
-            #         break
-
             print(room_description)
             if possible_exits:
                 print("Possible exits: ", ", ".join(possible_exits))
@@ -129,5 +121,3 @@ class Game:
                     print("There are no events in this room.")
             else:
                 print(f"Invalid action. Please enter a valid direction {', '.join(current_room.exits.keys())}, 'save', 'load', or 'quit'.")
-
-

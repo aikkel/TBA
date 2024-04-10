@@ -1,9 +1,5 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 import sqlite3
-from Media.Art import ArtReader
+
 
 class Monster:
     def __init__(self, id, name, skill, stamina, art_reader):
